@@ -1,5 +1,5 @@
 theme = "hugo_theme_pickles"
-baseurl = "/"
+baseurl = "https://github.com/haymike/"
 languageCode = "en-us"
 Title = "Michael Khoo"
 # Copyright notice. This is displayer in the footer.
@@ -20,7 +20,7 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
   ga_api_key = "Your Google Analytics tracking id"
   author = "Michael Khoo"
   authorwebsite = "example.com"
-  avatar = "khoo-blog/public/images/avatar.jpg"
+  avatar = "khoo-blog/public/images/avatar.jpg/"
   contact = "mailto:mlk8qf@gmail.com"
   bio = "A University of Virgina class of 2014 graduate who is currently a Financial Systems Analyst at the Federal Reserve Board based in Washington, DC."
   # Short subtitle/tagline. This is displayed in the header.
