@@ -1,0 +1,103 @@
+---
+title: "NBA 2016-17 Backcourt Tandems - A Brief Look"
+author: "Michael Khoo"
+date: "2017-11-30"
+tags: [R, NBA, Highcharter, kableExtra, formattable]
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(devtools)
+library(ballr)
+library(dplyr)
+library(highcharter)
+library(reshape2)
+library(knitr)
+library(kableExtra)
+library(formattable)
+```
+## Introduction 
+In recent years the NBA has been shifting to favor guard-oriented play highlighted by dynamic pairs such as the Golden State Warriors's Steph Curry and Klay Thompson and the Wizard's John Wall and Bradley Beal just to name a few. In this analysis, I take a high level look at the NBA 2016-17 season's point and shooting guard combos and experiment with different data visualization methods.
+
+As this is my first post, this is a consolidation of many experiments with:
+
+  - [Blogdown/Hugo](https://github.com/rstudio/blogdown)
+  - [Netlify](https://www.netlify.com/)
+  - [KableExtra](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html)
+  - [Formattable](http://haozhu233.github.io/kableExtra/use_kableExtra_with_formattable.html)
+  - [Highcharter](http://jkunst.com/highcharter/)
+  - [RMarkdown](http://rmarkdown.rstudio.com/)
+  
+Some extremely helpful tutorials for setting up your own blog:
+
+- [John Muschelli's Blogdown Tutorial Video](https://www.youtube.com/watch?v=syWAKaj-4ck)
+- [Alison Presmanes Hill's Tutorial](https://alison.rbind.io/post/up-and-running-with-blogdown/)
+
+## Data Analysis
+Data retrieval was pretty straightforward using the [ballr](https://github.com/rtelmore/ballr) package which scrapes Basketball-Reference.com's tables and converts them into data frames. The 'NBAPerGameStatistic' function takes a season modifier and will return the per game averages of every player in that season.
+
+To get the desired player pool, my methodology was to filter by only point and shooting guard positions and to limit by players who played more than 20 minutes a game (mp) and started more than half the season (gs). This reduced the observations from 595 to 44 (or 22 point guard/shooting guard tandems). Additionally, I dropped the "TOT" category which consolidates the stats for a player who has played for multiple teams in the 2016-17 season. This dropped Buddy Hield and Deron Williams who were both starters for more than 41 games but not all with one team.
+
+```{r data}
+players <- NBAPerGameStatistics(season = 2017) %>%  
+  filter(mp > 20, gs > 41, pos %in% c("PG", "SG"), 
+         !tm %in% c("TOT")) %>%
+  select(player, pos, tm, gs, trb, ast, stl, blk, tov, ps_g) %>%
+  distinct() %>%
+  group_by(tm) %>%
+  filter(n()==2) %>%
+  arrange(tm, pos)
+
+players_table <- players %>%
+  ungroup() %>%
+  mutate(ps_g = color_bar("lightgreen", proportion)(ps_g))
+
+kable(players_table,"html", escape = F) %>%
+  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+    column_spec(10, width = "4cm")
+
+```
+
+I plan to take a closer look at some of these pairs but here are a few notables from this list:
+
+- BRK, NOP, IND, CLE, PHI, DEN, MIA, ATL were the 8 teams that didn't have qualifying pairs
+- There is tie for the youngest players at age 20: D'Angelo Russell and Devin Booker
+- There is tie for the oldest players at age 35: Dwyane Wade and Tony Allen
+
+Using `kableExtra` and `formattable` allow for some cool table formatting within HTML documents making the data easier to navigate and consume versus traditional all text tables. However I did run into an issue where the plot presented later was misplacing outlier data points. As a work around I separated out the player_table dataset before applying `color_bar` formatting which corrected it.
+
+## Plotting Data
+Below is a simple scatter plot displaying the `players` dataset. Here I used `highcharter` which is a R wrapper of Highcharts used to create interactive visualizations.
+
+```{r highcharter}
+# Data
+plot <- highchart() %>% 
+  hc_add_series(data = players, hcaes(x = ps_g, y = ast, group = pos),
+                type = "scatter") %>% 
+  # Options  
+  hc_tooltip(headerFormat = "<b>Stats</b><br>",
+             pointFormat = "Player: {point.player} <br> Team: {point.tm} 
+             <br> PPG: {point.ps_g} <br> Assists: {point.ast}") %>%
+  # Axis
+    hc_yAxis(
+      title = list(text = "Assists per game")) %>% 
+    hc_xAxis(
+      title = list(text = "Points per game")) %>%
+  # Titles and credits
+  hc_title(
+    text = "NBA 2016-17 PGs and SGs"
+  ) %>%
+  hc_subtitle(
+    text = "Points per game vs assists"
+  )%>%
+  hc_credits(
+    enabled = TRUE, text = "Source: Basketball Reference",
+    href = "https://www.basketball-reference.com/leagues/NBA_2017_per_game.html",
+    style = list(fontSize = "12px")
+  )
+
+plot
+```
+
+By just quickly looking at the graph it points out of the obvious correlation between point guards and assists and what unbelievable seasons former OKC teammates Russell Westbrook and James Harden had in 2016-17.
+

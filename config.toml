@@ -1,0 +1,46 @@
+theme = "hugo_theme_pickles"
+baseurl = "/"
+languageCode = "en-us"
+Title = "Michael Khoo"
+# Copyright notice. This is displayer in the footer.
+copyright = "&copy; Michael Khoo 2017"
+
+ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
+
+[params]
+  paginate = 10
+  # Social accounts. Link to these accounts are displayed in the header and
+  # footer
+  instagram = "mikelkhoo"
+  github = "haymike"
+  linkedin = "michael-khoo-a957a845"
+  # Disqus shortname
+  disqus = ""
+  # Google Analytics API key.
+  ga_api_key = "Your Google Analytics tracking id"
+  author = "Michael Khoo"
+  authorwebsite = "example.com"
+  avatar = "/public/images/avatar.jpg"
+  contact = "mailto:mlk8qf@gmail.com"
+  bio = "A University of Virgina class of 2014 graduate who is currently a Financial Systems Analyst at the Federal Reserve Board based in Washington, DC."
+  # Short subtitle/tagline. This is displayed in the header.
+  subtitle = "Blog and Data Analysis"
+  # Logo image. This is displayed ogp image.
+  logo = "/path/to/logo"
+  favicon = "/path/to/favicon"
+
+[[menu.main]]
+    name = "Blog"
+    url = "/"
+    weight = 1
+
+[[menu.main]]
+    name = "About"
+    url = "/about"
+    weight = 2
+
+[[menu.main]]
+    name = "Tags"
+    url = "/tags"
+    weight = 3
+    

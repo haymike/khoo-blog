@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Highcharter on Michael Khoo</title>
+    <link>/tags/highcharter/</link>
+    <description>Recent content in Highcharter on Michael Khoo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; Michael Khoo 2017</copyright>
+    <lastBuildDate>Thu, 30 Nov 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/highcharter/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>NBA 2016-17 Backcourt Tandems - A Brief Look</title>
+      <link>/posts/20171130-nba-backcourt/</link>
+      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/20171130-nba-backcourt/</guid>
+      <description>IntroductionIn recent years the NBA has been shifting to favor guard-oriented play highlighted by dynamic pairs such as the Golden State Warriors’s Steph Curry and Klay Thompson and the Wizard’s John Wall and Bradley Beal just to name a few.</description>
+    </item>
+    
+  </channel>
+</rss>

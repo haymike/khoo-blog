@@ -1,0 +1,1569 @@
+---
+title: "NBA 2016-17 Backcourt Tandems - A Brief Look"
+author: "Michael Khoo"
+date: "2017-11-30"
+tags: [R, NBA, Highcharter, kableExtra, formattable]
+output: html_document
+---
+
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<script src="/rmarkdown-libs/proj4js/proj4.js"></script>
+<link href="/rmarkdown-libs/highcharts/css/motion.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/highcharts/highstock.js"></script>
+<script src="/rmarkdown-libs/highcharts/highcharts-3d.js"></script>
+<script src="/rmarkdown-libs/highcharts/highcharts-more.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/annotations.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/broken-axis.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/data.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/drilldown.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/exporting.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/funnel.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/heatmap.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/map.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/no-data-to-display.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/offline-exporting.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/solid-gauge.js"></script>
+<script src="/rmarkdown-libs/highcharts/modules/treemap.js"></script>
+<script src="/rmarkdown-libs/highcharts/plugins/annotations.js"></script>
+<script src="/rmarkdown-libs/highcharts/plugins/draggable-legend.js"></script>
+<script src="/rmarkdown-libs/highcharts/plugins/draggable-points.js"></script>
+<script src="/rmarkdown-libs/highcharts/plugins/export-csv.js"></script>
+<script src="/rmarkdown-libs/highcharts/plugins/grouped-categories.js"></script>
+<script src="/rmarkdown-libs/highcharts/plugins/motion.js"></script>
+<script src="/rmarkdown-libs/highcharts/plugins/pattern-fill-v2.js"></script>
+<script src="/rmarkdown-libs/highcharts/plugins/tooltip-delay.js"></script>
+<script src="/rmarkdown-libs/highcharts/custom/reset.js"></script>
+<script src="/rmarkdown-libs/highcharts/custom/symbols-extra.js"></script>
+<script src="/rmarkdown-libs/highcharts/custom/text-symbols.js"></script>
+<link href="/rmarkdown-libs/fontawesome/font-awesome.min.css" rel="stylesheet" />
+<link href="/rmarkdown-libs/htmlwdgtgrid/htmlwdgtgrid.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/highchart-binding/highchart.js"></script>
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>In recent years the NBA has been shifting to favor guard-oriented play highlighted by dynamic pairs such as the Golden State Warriors’s Steph Curry and Klay Thompson and the Wizard’s John Wall and Bradley Beal just to name a few. In this analysis, I take a high level look at the NBA 2016-17 season’s point and shooting guard combos and experiment with different data visualization methods.</p>
+<p>As this is my first post, this is a consolidation of many experiments with:</p>
+<ul>
+<li><a href="https://github.com/rstudio/blogdown">Blogdown/Hugo</a></li>
+<li><a href="https://www.netlify.com/">Netlify</a></li>
+<li><a href="https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html">KableExtra</a></li>
+<li><a href="http://haozhu233.github.io/kableExtra/use_kableExtra_with_formattable.html">Formattable</a></li>
+<li><a href="http://jkunst.com/highcharter/">Highcharter</a></li>
+<li><a href="http://rmarkdown.rstudio.com/">RMarkdown</a></li>
+</ul>
+<p>Some extremely helpful tutorials for setting up your own blog:</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=syWAKaj-4ck">John Muschelli’s Blogdown Tutorial Video</a></li>
+<li><a href="https://alison.rbind.io/post/up-and-running-with-blogdown/">Alison Presmanes Hill’s Tutorial</a></li>
+</ul>
+</div>
+<div id="data-analysis" class="section level2">
+<h2>Data Analysis</h2>
+<p>Data retrieval was pretty straightforward using the <a href="https://github.com/rtelmore/ballr">ballr</a> package which scrapes Basketball-Reference.com’s tables and converts them into data frames. The ‘NBAPerGameStatistic’ function takes a season modifier and will return the per game averages of every player in that season.</p>
+<p>To get the desired player pool, my methodology was to filter by only point and shooting guard positions and to limit by players who played more than 20 minutes a game (mp) and started more than half the season (gs). This reduced the observations from 595 to 44 (or 22 point guard/shooting guard tandems). Additionally, I dropped the “TOT” category which consolidates the stats for a player who has played for multiple teams in the 2016-17 season. This dropped Buddy Hield and Deron Williams who were both starters for more than 41 games but not all with one team.</p>
+<pre class="r"><code>players &lt;- NBAPerGameStatistics(season = 2017) %&gt;%  
+  filter(mp &gt; 20, gs &gt; 41, pos %in% c(&quot;PG&quot;, &quot;SG&quot;), 
+         !tm %in% c(&quot;TOT&quot;)) %&gt;%
+  select(player, pos, tm, gs, trb, ast, stl, blk, tov, ps_g) %&gt;%
+  distinct() %&gt;%
+  group_by(tm) %&gt;%
+  filter(n()==2) %&gt;%
+  arrange(tm, pos)
+
+players_table &lt;- players %&gt;%
+  ungroup() %&gt;%
+  mutate(ps_g = color_bar(&quot;lightgreen&quot;, proportion)(ps_g))
+
+kable(players_table,&quot;html&quot;, escape = F) %&gt;%
+  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;)) %&gt;%
+    column_spec(10, width = &quot;4cm&quot;)</code></pre>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+player
+</th>
+<th style="text-align:left;">
+pos
+</th>
+<th style="text-align:left;">
+tm
+</th>
+<th style="text-align:right;">
+gs
+</th>
+<th style="text-align:right;">
+trb
+</th>
+<th style="text-align:right;">
+ast
+</th>
+<th style="text-align:right;">
+stl
+</th>
+<th style="text-align:right;">
+blk
+</th>
+<th style="text-align:right;">
+tov
+</th>
+<th style="text-align:left;">
+ps_g
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Isaiah Thomas
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+BOS
+</td>
+<td style="text-align:right;">
+76
+</td>
+<td style="text-align:right;">
+2.7
+</td>
+<td style="text-align:right;">
+5.9
+</td>
+<td style="text-align:right;">
+0.9
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+2.8
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 91.46%">28.9</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Avery Bradley
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+BOS
+</td>
+<td style="text-align:right;">
+55
+</td>
+<td style="text-align:right;">
+6.1
+</td>
+<td style="text-align:right;">
+2.2
+</td>
+<td style="text-align:right;">
+1.2
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 51.58%">16.3</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rajon Rondo
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+CHI
+</td>
+<td style="text-align:right;">
+42
+</td>
+<td style="text-align:right;">
+5.1
+</td>
+<td style="text-align:right;">
+6.7
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+2.4
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 24.68%">7.8</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Dwyane Wade
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+CHI
+</td>
+<td style="text-align:right;">
+59
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+3.8
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:right;">
+0.7
+</td>
+<td style="text-align:right;">
+2.3
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 57.91%">18.3</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Kemba Walker
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+CHO
+</td>
+<td style="text-align:right;">
+79
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+5.5
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+2.1
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 73.42%">23.2</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Nicolas Batum
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+CHO
+</td>
+<td style="text-align:right;">
+77
+</td>
+<td style="text-align:right;">
+6.2
+</td>
+<td style="text-align:right;">
+5.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+<td style="text-align:right;">
+0.4
+</td>
+<td style="text-align:right;">
+2.5
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 47.78%">15.1</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Seth Curry
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+DAL
+</td>
+<td style="text-align:right;">
+42
+</td>
+<td style="text-align:right;">
+2.6
+</td>
+<td style="text-align:right;">
+2.7
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 40.51%">12.8</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Wesley Matthews
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+DAL
+</td>
+<td style="text-align:right;">
+73
+</td>
+<td style="text-align:right;">
+3.5
+</td>
+<td style="text-align:right;">
+2.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 42.72%">13.5</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Reggie Jackson
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+DET
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+2.2
+</td>
+<td style="text-align:right;">
+5.2
+</td>
+<td style="text-align:right;">
+0.7
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+2.2
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 45.89%">14.5</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Kentavious Caldwell-Pope
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+DET
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+3.3
+</td>
+<td style="text-align:right;">
+2.5
+</td>
+<td style="text-align:right;">
+1.2
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 43.67%">13.8</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Stephen Curry
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+GSW
+</td>
+<td style="text-align:right;">
+79
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+6.6
+</td>
+<td style="text-align:right;">
+1.8
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+3.0
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 80.06%">25.3</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Klay Thompson
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+GSW
+</td>
+<td style="text-align:right;">
+78
+</td>
+<td style="text-align:right;">
+3.7
+</td>
+<td style="text-align:right;">
+2.1
+</td>
+<td style="text-align:right;">
+0.8
+</td>
+<td style="text-align:right;">
+0.5
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 70.57%">22.3</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+James Harden
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+HOU
+</td>
+<td style="text-align:right;">
+81
+</td>
+<td style="text-align:right;">
+8.1
+</td>
+<td style="text-align:right;">
+11.2
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+<td style="text-align:right;">
+0.5
+</td>
+<td style="text-align:right;">
+5.7
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 92.09%">29.1</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Patrick Beverley
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+HOU
+</td>
+<td style="text-align:right;">
+67
+</td>
+<td style="text-align:right;">
+5.9
+</td>
+<td style="text-align:right;">
+4.2
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+<td style="text-align:right;">
+0.4
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 30.06%">9.5</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chris Paul
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+LAC
+</td>
+<td style="text-align:right;">
+61
+</td>
+<td style="text-align:right;">
+5.0
+</td>
+<td style="text-align:right;">
+9.2
+</td>
+<td style="text-align:right;">
+2.0
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+2.4
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 57.28%">18.1</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+J.J. Redick
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+LAC
+</td>
+<td style="text-align:right;">
+78
+</td>
+<td style="text-align:right;">
+2.2
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:right;">
+0.7
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 47.47%">15.0</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+D’Angelo Russell
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+LAL
+</td>
+<td style="text-align:right;">
+60
+</td>
+<td style="text-align:right;">
+3.5
+</td>
+<td style="text-align:right;">
+4.8
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+2.8
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 49.37%">15.6</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Nick Young
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+LAL
+</td>
+<td style="text-align:right;">
+60
+</td>
+<td style="text-align:right;">
+2.3
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0.6
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+0.6
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 41.77%">13.2</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mike Conley
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+MEM
+</td>
+<td style="text-align:right;">
+68
+</td>
+<td style="text-align:right;">
+3.5
+</td>
+<td style="text-align:right;">
+6.3
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+2.3
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 64.87%">20.5</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Tony Allen
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+MEM
+</td>
+<td style="text-align:right;">
+66
+</td>
+<td style="text-align:right;">
+5.5
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:right;">
+0.4
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 28.80%">9.1</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Matthew Dellavedova
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+MIL
+</td>
+<td style="text-align:right;">
+54
+</td>
+<td style="text-align:right;">
+1.9
+</td>
+<td style="text-align:right;">
+4.7
+</td>
+<td style="text-align:right;">
+0.7
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+1.8
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 24.05%">7.6</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Tony Snell
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+MIL
+</td>
+<td style="text-align:right;">
+80
+</td>
+<td style="text-align:right;">
+3.1
+</td>
+<td style="text-align:right;">
+1.2
+</td>
+<td style="text-align:right;">
+0.7
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+0.7
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 26.90%">8.5</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ricky Rubio
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+MIN
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+4.1
+</td>
+<td style="text-align:right;">
+9.1
+</td>
+<td style="text-align:right;">
+1.7
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+2.6
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 35.13%">11.1</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Zach LaVine
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+MIN
+</td>
+<td style="text-align:right;">
+47
+</td>
+<td style="text-align:right;">
+3.4
+</td>
+<td style="text-align:right;">
+3.0
+</td>
+<td style="text-align:right;">
+0.9
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+1.8
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 59.81%">18.9</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Derrick Rose
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+NYK
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+3.8
+</td>
+<td style="text-align:right;">
+4.4
+</td>
+<td style="text-align:right;">
+0.7
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+2.3
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 56.96%">18.0</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Courtney Lee
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+NYK
+</td>
+<td style="text-align:right;">
+74
+</td>
+<td style="text-align:right;">
+3.4
+</td>
+<td style="text-align:right;">
+2.3
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0.9
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 34.18%">10.8</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Russell Westbrook
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+OKC
+</td>
+<td style="text-align:right;">
+81
+</td>
+<td style="text-align:right;">
+10.7
+</td>
+<td style="text-align:right;">
+10.4
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:right;">
+0.4
+</td>
+<td style="text-align:right;">
+5.4
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 100.00%">31.6</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Victor Oladipo
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+OKC
+</td>
+<td style="text-align:right;">
+67
+</td>
+<td style="text-align:right;">
+4.3
+</td>
+<td style="text-align:right;">
+2.6
+</td>
+<td style="text-align:right;">
+1.2
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+1.8
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 50.32%">15.9</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Elfrid Payton
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+ORL
+</td>
+<td style="text-align:right;">
+58
+</td>
+<td style="text-align:right;">
+4.7
+</td>
+<td style="text-align:right;">
+6.5
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+<td style="text-align:right;">
+0.5
+</td>
+<td style="text-align:right;">
+2.2
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 40.51%">12.8</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Evan Fournier
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+ORL
+</td>
+<td style="text-align:right;">
+66
+</td>
+<td style="text-align:right;">
+3.1
+</td>
+<td style="text-align:right;">
+3.0
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+2.1
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 54.43%">17.2</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Eric Bledsoe
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+PHO
+</td>
+<td style="text-align:right;">
+66
+</td>
+<td style="text-align:right;">
+4.8
+</td>
+<td style="text-align:right;">
+6.3
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:right;">
+0.5
+</td>
+<td style="text-align:right;">
+3.4
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 66.77%">21.1</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Devin Booker
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+PHO
+</td>
+<td style="text-align:right;">
+78
+</td>
+<td style="text-align:right;">
+3.2
+</td>
+<td style="text-align:right;">
+3.4
+</td>
+<td style="text-align:right;">
+0.9
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+3.1
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 69.94%">22.1</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Damian Lillard
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+POR
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+4.9
+</td>
+<td style="text-align:right;">
+5.9
+</td>
+<td style="text-align:right;">
+0.9
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+2.6
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 85.44%">27.0</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C.J. McCollum
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+POR
+</td>
+<td style="text-align:right;">
+80
+</td>
+<td style="text-align:right;">
+3.6
+</td>
+<td style="text-align:right;">
+3.6
+</td>
+<td style="text-align:right;">
+0.9
+</td>
+<td style="text-align:right;">
+0.5
+</td>
+<td style="text-align:right;">
+2.2
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 72.78%">23.0</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Darren Collison
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+SAC
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+2.2
+</td>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+1.7
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 41.77%">13.2</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Arron Afflalo
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+SAC
+</td>
+<td style="text-align:right;">
+45
+</td>
+<td style="text-align:right;">
+2.0
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+0.7
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 26.58%">8.4</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Tony Parker
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+SAS
+</td>
+<td style="text-align:right;">
+63
+</td>
+<td style="text-align:right;">
+1.8
+</td>
+<td style="text-align:right;">
+4.5
+</td>
+<td style="text-align:right;">
+0.5
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 31.96%">10.1</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Danny Green
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+SAS
+</td>
+<td style="text-align:right;">
+68
+</td>
+<td style="text-align:right;">
+3.3
+</td>
+<td style="text-align:right;">
+1.8
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0.8
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 23.10%">7.3</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Kyle Lowry
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+TOR
+</td>
+<td style="text-align:right;">
+60
+</td>
+<td style="text-align:right;">
+4.8
+</td>
+<td style="text-align:right;">
+7.0
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+2.9
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 70.89%">22.4</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DeMar DeRozan
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+TOR
+</td>
+<td style="text-align:right;">
+74
+</td>
+<td style="text-align:right;">
+5.2
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+2.4
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 86.39%">27.3</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+George Hill
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+UTA
+</td>
+<td style="text-align:right;">
+49
+</td>
+<td style="text-align:right;">
+3.4
+</td>
+<td style="text-align:right;">
+4.2
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+1.7
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 53.48%">16.9</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rodney Hood
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+UTA
+</td>
+<td style="text-align:right;">
+55
+</td>
+<td style="text-align:right;">
+3.4
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:right;">
+0.6
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 40.19%">12.7</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+John Wall
+</td>
+<td style="text-align:left;">
+PG
+</td>
+<td style="text-align:left;">
+WAS
+</td>
+<td style="text-align:right;">
+78
+</td>
+<td style="text-align:right;">
+4.2
+</td>
+<td style="text-align:right;">
+10.7
+</td>
+<td style="text-align:right;">
+2.0
+</td>
+<td style="text-align:right;">
+0.6
+</td>
+<td style="text-align:right;">
+4.1
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 73.10%">23.1</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bradley Beal
+</td>
+<td style="text-align:left;">
+SG
+</td>
+<td style="text-align:left;">
+WAS
+</td>
+<td style="text-align:right;">
+77
+</td>
+<td style="text-align:right;">
+3.1
+</td>
+<td style="text-align:right;">
+3.5
+</td>
+<td style="text-align:right;">
+1.1
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+2.0
+</td>
+<td style="text-align:left;width: 4cm; ">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 73.10%">23.1</span>
+</td>
+</tr>
+</tbody>
+</table>
+<p>I plan to take a closer look at some of these pairs but here are a few notables from this list:</p>
+<ul>
+<li>BRK, NOP, IND, CLE, PHI, DEN, MIA, ATL were the 8 teams that didn’t have qualifying pairs</li>
+<li>There is tie for the youngest players at age 20: D’Angelo Russell and Devin Booker</li>
+<li>There is tie for the oldest players at age 35: Dwyane Wade and Tony Allen</li>
+</ul>
+<p>Using <code>kableExtra</code> and <code>formattable</code> allow for some cool table formatting within HTML documents making the data easier to navigate and consume versus traditional all text tables. However I did run into an issue where the plot presented later was misplacing outlier data points. As a work around I separated out the player_table dataset before applying <code>color_bar</code> formatting which corrected it.</p>
+</div>
+<div id="plotting-data" class="section level2">
+<h2>Plotting Data</h2>
+<p>Below is a simple scatter plot displaying the <code>players</code> dataset. Here I used <code>highcharter</code> which is a R wrapper of Highcharts used to create interactive visualizations.</p>
+<pre class="r"><code># Data
+plot &lt;- highchart() %&gt;% 
+  hc_add_series(data = players, hcaes(x = ps_g, y = ast, group = pos),
+                type = &quot;scatter&quot;) %&gt;% 
+  # Options  
+  hc_tooltip(headerFormat = &quot;&lt;b&gt;Stats&lt;/b&gt;&lt;br&gt;&quot;,
+             pointFormat = &quot;Player: {point.player} &lt;br&gt; Team: {point.tm} 
+             &lt;br&gt; PPG: {point.ps_g} &lt;br&gt; Assists: {point.ast}&quot;) %&gt;%
+  # Axis
+    hc_yAxis(
+      title = list(text = &quot;Assists per game&quot;)) %&gt;% 
+    hc_xAxis(
+      title = list(text = &quot;Points per game&quot;)) %&gt;%
+  # Titles and credits
+  hc_title(
+    text = &quot;NBA 2016-17 PGs and SGs&quot;
+  ) %&gt;%
+  hc_subtitle(
+    text = &quot;Points per game vs assists&quot;
+  )%&gt;%
+  hc_credits(
+    enabled = TRUE, text = &quot;Source: Basketball Reference&quot;,
+    href = &quot;https://www.basketball-reference.com/leagues/NBA_2017_per_game.html&quot;,
+    style = list(fontSize = &quot;12px&quot;)
+  )
+
+plot</code></pre>
+<div id="htmlwidget-1" style="width:100%;height:500px;" class="highchart html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"hc_opts":{"title":{"text":"NBA 2016-17 PGs and SGs"},"yAxis":{"title":{"text":"Assists per game"}},"credits":{"enabled":true,"text":"Source: Basketball Reference","href":"https://www.basketball-reference.com/leagues/NBA_2017_per_game.html","style":{"fontSize":"12px"}},"exporting":{"enabled":false},"plotOptions":{"series":{"turboThreshold":0},"treemap":{"layoutAlgorithm":"squarified"},"bubble":{"minSize":5,"maxSize":25}},"annotationsOptions":{"enabledButtons":false},"tooltip":{"delayForDisplay":10,"headerFormat":"<b>Stats<\/b><br>","pointFormat":"Player: {point.player} <br> Team: {point.tm} \n             <br> PPG: {point.ps_g} <br> Assists: {point.ast}"},"series":[{"name":"PG","data":[{"player":"Isaiah Thomas","pos":"PG","tm":"BOS","gs":76,"trb":2.7,"ast":5.9,"stl":0.9,"blk":0.2,"tov":2.8,"ps_g":28.9,"x":28.9,"y":5.9},{"player":"Rajon Rondo","pos":"PG","tm":"CHI","gs":42,"trb":5.1,"ast":6.7,"stl":1.4,"blk":0.2,"tov":2.4,"ps_g":7.8,"x":7.8,"y":6.7},{"player":"Kemba Walker","pos":"PG","tm":"CHO","gs":79,"trb":3.9,"ast":5.5,"stl":1.1,"blk":0.3,"tov":2.1,"ps_g":23.2,"x":23.2,"y":5.5},{"player":"Seth Curry","pos":"PG","tm":"DAL","gs":42,"trb":2.6,"ast":2.7,"stl":1.1,"blk":0.1,"tov":1.3,"ps_g":12.8,"x":12.8,"y":2.7},{"player":"Reggie Jackson","pos":"PG","tm":"DET","gs":50,"trb":2.2,"ast":5.2,"stl":0.7,"blk":0.1,"tov":2.2,"ps_g":14.5,"x":14.5,"y":5.2},{"player":"Stephen Curry","pos":"PG","tm":"GSW","gs":79,"trb":4.5,"ast":6.6,"stl":1.8,"blk":0.2,"tov":3,"ps_g":25.3,"x":25.3,"y":6.6},{"player":"James Harden","pos":"PG","tm":"HOU","gs":81,"trb":8.1,"ast":11.2,"stl":1.5,"blk":0.5,"tov":5.7,"ps_g":29.1,"x":29.1,"y":11.2},{"player":"Chris Paul","pos":"PG","tm":"LAC","gs":61,"trb":5,"ast":9.2,"stl":2,"blk":0.1,"tov":2.4,"ps_g":18.1,"x":18.1,"y":9.2},{"player":"D'Angelo Russell","pos":"PG","tm":"LAL","gs":60,"trb":3.5,"ast":4.8,"stl":1.4,"blk":0.3,"tov":2.8,"ps_g":15.6,"x":15.6,"y":4.8},{"player":"Mike Conley","pos":"PG","tm":"MEM","gs":68,"trb":3.5,"ast":6.3,"stl":1.3,"blk":0.3,"tov":2.3,"ps_g":20.5,"x":20.5,"y":6.3},{"player":"Matthew Dellavedova","pos":"PG","tm":"MIL","gs":54,"trb":1.9,"ast":4.7,"stl":0.7,"blk":0,"tov":1.8,"ps_g":7.6,"x":7.6,"y":4.7},{"player":"Ricky Rubio","pos":"PG","tm":"MIN","gs":75,"trb":4.1,"ast":9.1,"stl":1.7,"blk":0.1,"tov":2.6,"ps_g":11.1,"x":11.1,"y":9.1},{"player":"Derrick Rose","pos":"PG","tm":"NYK","gs":64,"trb":3.8,"ast":4.4,"stl":0.7,"blk":0.3,"tov":2.3,"ps_g":18,"x":18,"y":4.4},{"player":"Russell Westbrook","pos":"PG","tm":"OKC","gs":81,"trb":10.7,"ast":10.4,"stl":1.6,"blk":0.4,"tov":5.4,"ps_g":31.6,"x":31.6,"y":10.4},{"player":"Elfrid Payton","pos":"PG","tm":"ORL","gs":58,"trb":4.7,"ast":6.5,"stl":1.1,"blk":0.5,"tov":2.2,"ps_g":12.8,"x":12.8,"y":6.5},{"player":"Eric Bledsoe","pos":"PG","tm":"PHO","gs":66,"trb":4.8,"ast":6.3,"stl":1.4,"blk":0.5,"tov":3.4,"ps_g":21.1,"x":21.1,"y":6.3},{"player":"Damian Lillard","pos":"PG","tm":"POR","gs":75,"trb":4.9,"ast":5.9,"stl":0.9,"blk":0.3,"tov":2.6,"ps_g":27,"x":27,"y":5.9},{"player":"Darren Collison","pos":"PG","tm":"SAC","gs":64,"trb":2.2,"ast":4.6,"stl":1,"blk":0.1,"tov":1.7,"ps_g":13.2,"x":13.2,"y":4.6},{"player":"Tony Parker","pos":"PG","tm":"SAS","gs":63,"trb":1.8,"ast":4.5,"stl":0.5,"blk":0,"tov":1.4,"ps_g":10.1,"x":10.1,"y":4.5},{"player":"Kyle Lowry","pos":"PG","tm":"TOR","gs":60,"trb":4.8,"ast":7,"stl":1.5,"blk":0.3,"tov":2.9,"ps_g":22.4,"x":22.4,"y":7},{"player":"George Hill","pos":"PG","tm":"UTA","gs":49,"trb":3.4,"ast":4.2,"stl":1,"blk":0.2,"tov":1.7,"ps_g":16.9,"x":16.9,"y":4.2},{"player":"John Wall","pos":"PG","tm":"WAS","gs":78,"trb":4.2,"ast":10.7,"stl":2,"blk":0.6,"tov":4.1,"ps_g":23.1,"x":23.1,"y":10.7}],"type":"scatter"},{"name":"SG","data":[{"player":"Avery Bradley","pos":"SG","tm":"BOS","gs":55,"trb":6.1,"ast":2.2,"stl":1.2,"blk":0.2,"tov":1.6,"ps_g":16.3,"x":16.3,"y":2.2},{"player":"Dwyane Wade","pos":"SG","tm":"CHI","gs":59,"trb":4.5,"ast":3.8,"stl":1.4,"blk":0.7,"tov":2.3,"ps_g":18.3,"x":18.3,"y":3.8},{"player":"Nicolas Batum","pos":"SG","tm":"CHO","gs":77,"trb":6.2,"ast":5.9,"stl":1.1,"blk":0.4,"tov":2.5,"ps_g":15.1,"x":15.1,"y":5.9},{"player":"Wesley Matthews","pos":"SG","tm":"DAL","gs":73,"trb":3.5,"ast":2.9,"stl":1.1,"blk":0.2,"tov":1.4,"ps_g":13.5,"x":13.5,"y":2.9},{"player":"Kentavious Caldwell-Pope","pos":"SG","tm":"DET","gs":75,"trb":3.3,"ast":2.5,"stl":1.2,"blk":0.2,"tov":1.1,"ps_g":13.8,"x":13.8,"y":2.5},{"player":"Klay Thompson","pos":"SG","tm":"GSW","gs":78,"trb":3.7,"ast":2.1,"stl":0.8,"blk":0.5,"tov":1.6,"ps_g":22.3,"x":22.3,"y":2.1},{"player":"Patrick Beverley","pos":"SG","tm":"HOU","gs":67,"trb":5.9,"ast":4.2,"stl":1.5,"blk":0.4,"tov":1.5,"ps_g":9.5,"x":9.5,"y":4.2},{"player":"J.J. Redick","pos":"SG","tm":"LAC","gs":78,"trb":2.2,"ast":1.4,"stl":0.7,"blk":0.2,"tov":1.3,"ps_g":15,"x":15,"y":1.4},{"player":"Nick Young","pos":"SG","tm":"LAL","gs":60,"trb":2.3,"ast":1,"stl":0.6,"blk":0.2,"tov":0.6,"ps_g":13.2,"x":13.2,"y":1},{"player":"Tony Allen","pos":"SG","tm":"MEM","gs":66,"trb":5.5,"ast":1.4,"stl":1.6,"blk":0.4,"tov":1.4,"ps_g":9.1,"x":9.1,"y":1.4},{"player":"Tony Snell","pos":"SG","tm":"MIL","gs":80,"trb":3.1,"ast":1.2,"stl":0.7,"blk":0.2,"tov":0.7,"ps_g":8.5,"x":8.5,"y":1.2},{"player":"Zach LaVine","pos":"SG","tm":"MIN","gs":47,"trb":3.4,"ast":3,"stl":0.9,"blk":0.2,"tov":1.8,"ps_g":18.9,"x":18.9,"y":3},{"player":"Courtney Lee","pos":"SG","tm":"NYK","gs":74,"trb":3.4,"ast":2.3,"stl":1.1,"blk":0.3,"tov":0.9,"ps_g":10.8,"x":10.8,"y":2.3},{"player":"Victor Oladipo","pos":"SG","tm":"OKC","gs":67,"trb":4.3,"ast":2.6,"stl":1.2,"blk":0.3,"tov":1.8,"ps_g":15.9,"x":15.9,"y":2.6},{"player":"Evan Fournier","pos":"SG","tm":"ORL","gs":66,"trb":3.1,"ast":3,"stl":1,"blk":0.1,"tov":2.1,"ps_g":17.2,"x":17.2,"y":3},{"player":"Devin Booker","pos":"SG","tm":"PHO","gs":78,"trb":3.2,"ast":3.4,"stl":0.9,"blk":0.3,"tov":3.1,"ps_g":22.1,"x":22.1,"y":3.4},{"player":"C.J. McCollum","pos":"SG","tm":"POR","gs":80,"trb":3.6,"ast":3.6,"stl":0.9,"blk":0.5,"tov":2.2,"ps_g":23,"x":23,"y":3.6},{"player":"Arron Afflalo","pos":"SG","tm":"SAC","gs":45,"trb":2,"ast":1.3,"stl":0.3,"blk":0.1,"tov":0.7,"ps_g":8.4,"x":8.4,"y":1.3},{"player":"Danny Green","pos":"SG","tm":"SAS","gs":68,"trb":3.3,"ast":1.8,"stl":1,"blk":0.8,"tov":1.1,"ps_g":7.3,"x":7.3,"y":1.8},{"player":"DeMar DeRozan","pos":"SG","tm":"TOR","gs":74,"trb":5.2,"ast":3.9,"stl":1.1,"blk":0.2,"tov":2.4,"ps_g":27.3,"x":27.3,"y":3.9},{"player":"Rodney Hood","pos":"SG","tm":"UTA","gs":55,"trb":3.4,"ast":1.6,"stl":0.6,"blk":0.2,"tov":1.1,"ps_g":12.7,"x":12.7,"y":1.6},{"player":"Bradley Beal","pos":"SG","tm":"WAS","gs":77,"trb":3.1,"ast":3.5,"stl":1.1,"blk":0.3,"tov":2,"ps_g":23.1,"x":23.1,"y":3.5}],"type":"scatter"}],"xAxis":{"title":{"text":"Points per game"}},"subtitle":{"text":"Points per game vs assists"}},"theme":{"chart":{"backgroundColor":"transparent"}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","drillUpText":"Back to {series.name}","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"thousandsSep":" ","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":[],"debug":false},"evals":[],"jsHooks":[]}</script>
+<p>By just quickly looking at the graph it points out of the obvious correlation between point guards and assists and what unbelievable seasons former OKC teammates Russell Westbrook and James Harden had in 2016-17.</p>
+</div>
