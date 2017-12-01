@@ -3,64 +3,64 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://haymike.netlify.com/about/</loc>
+    <loc>/about/</loc>
     <lastmod>2017-11-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://haymike.netlify.com/posts/20171130-nba-backcourt/</loc>
+    <loc>/posts/20171130-nba-backcourt/</loc>
     <lastmod>2017-11-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://haymike.netlify.com/categories/</loc>
+    <loc>/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haymike.netlify.com/tags/formattable/</loc>
-    <lastmod>2017-11-30T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://haymike.netlify.com/tags/highcharter/</loc>
+    <loc>/tags/formattable/</loc>
     <lastmod>2017-11-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haymike.netlify.com/tags/kableextra/</loc>
+    <loc>/tags/highcharter/</loc>
     <lastmod>2017-11-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haymike.netlify.com/</loc>
+    <loc>/tags/kableextra/</loc>
     <lastmod>2017-11-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haymike.netlify.com/tags/nba/</loc>
+    <loc>/</loc>
     <lastmod>2017-11-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haymike.netlify.com/posts/</loc>
+    <loc>/tags/nba/</loc>
     <lastmod>2017-11-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haymike.netlify.com/tags/r/</loc>
+    <loc>/posts/</loc>
     <lastmod>2017-11-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haymike.netlify.com/tags/</loc>
+    <loc>/tags/r/</loc>
+    <lastmod>2017-11-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
     <lastmod>2017-11-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
