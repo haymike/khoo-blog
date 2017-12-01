@@ -2,33 +2,35 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Michael Khoo</title>
-    <link>/</link>
+    <link>https://haymike.netlify.com/</link>
     <description>Recent content on Michael Khoo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; Michael Khoo 2017</copyright>
     <lastBuildDate>Thu, 30 Nov 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://haymike.netlify.com/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>NBA 2016-17 Backcourt Tandems - A Brief Look</title>
-      <link>/posts/20171130-nba-backcourt/</link>
+      <title>About Me</title>
+      <link>https://haymike.netlify.com/about/</link>
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>/posts/20171130-nba-backcourt/</guid>
-      <description>IntroductionIn recent years the NBA has been shifting to favor guard-oriented play highlighted by dynamic pairs such as the Golden State Warriors’s Steph Curry and Klay Thompson and the Wizard’s John Wall and Bradley Beal just to name a few.</description>
+      <guid>https://haymike.netlify.com/about/</guid>
+      <description>I graduated from the University of Virginia in 2014 with a degree in Economics. After school, I took a full-time position at the Federal Reserve Board as a financial systems analyst and have been there for about three and a half years. I currently reside in the DC metropolitan area.
+Skills:
+ R SAS SQL Data Analysis  Have ideas? Feel free to get in touch!
+Pickles Theme - Theme by mismith0227</description>
     </item>
     
     <item>
-      <title>About Michael</title>
-      <link>/about/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>NBA 2016-17 Backcourt Tandems - A Brief Look</title>
+      <link>https://haymike.netlify.com/posts/20171130-nba-backcourt/</link>
+      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>/about/</guid>
-      <description>Under Construction.
-Theme by mismith0227 Pickles Theme.</description>
+      <guid>https://haymike.netlify.com/posts/20171130-nba-backcourt/</guid>
+      <description>IntroductionIn recent years the NBA has been shifting to favor guard-oriented play highlighted by dynamic pairs such as the Golden State Warriors’s Steph Curry and Klay Thompson and the Wizard’s John Wall and Bradley Beal just to name a few.</description>
     </item>
     
   </channel>

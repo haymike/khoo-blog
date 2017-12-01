@@ -2,58 +2,58 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Michael Khoo</title>
-    <link>/tags/</link>
+    <link>https://haymike.netlify.com/tags/</link>
     <description>Recent content in Tags on Michael Khoo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; Michael Khoo 2017</copyright>
     <lastBuildDate>Thu, 30 Nov 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://haymike.netlify.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Formattable</title>
-      <link>/tags/formattable/</link>
+      <link>https://haymike.netlify.com/tags/formattable/</link>
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/formattable/</guid>
+      <guid>https://haymike.netlify.com/tags/formattable/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Highcharter</title>
-      <link>/tags/highcharter/</link>
+      <link>https://haymike.netlify.com/tags/highcharter/</link>
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/highcharter/</guid>
+      <guid>https://haymike.netlify.com/tags/highcharter/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Kableextra</title>
-      <link>/tags/kableextra/</link>
+      <link>https://haymike.netlify.com/tags/kableextra/</link>
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/kableextra/</guid>
+      <guid>https://haymike.netlify.com/tags/kableextra/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Nba</title>
-      <link>/tags/nba/</link>
+      <link>https://haymike.netlify.com/tags/nba/</link>
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/nba/</guid>
+      <guid>https://haymike.netlify.com/tags/nba/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R</title>
-      <link>/tags/r/</link>
+      <link>https://haymike.netlify.com/tags/r/</link>
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/r/</guid>
+      <guid>https://haymike.netlify.com/tags/r/</guid>
       <description></description>
     </item>
     
