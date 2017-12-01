@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cryptocurrency on Michael Khoo</title>
+    <link>/tags/cryptocurrency/</link>
+    <description>Recent content in Cryptocurrency on Michael Khoo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; Michael Khoo 2017</copyright>
+    <lastBuildDate>Fri, 05 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/cryptocurrency/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Cyrptocurrency Prices and Google Trends Data</title>
+      <link>/posts/cyrptocurrency-prices-and-google-trends-data/</link>
+      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/cyrptocurrency-prices-and-google-trends-data/</guid>
+      <description>IntroductionBlockchain technology and cryptocurrencies have come front and center as the total market capitalization close in on $800 million at the start of 2018 growing over 4300% since 2017 with much of the growth happening in recent months. With all the recent news on the subject, I thought it might be interesting to try to quantify the buzz against the historical cryptocurrency data.</description>
+    </item>
+    
+  </channel>
+</rss>

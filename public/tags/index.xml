@@ -2,58 +2,103 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Michael Khoo</title>
-    <link>https://haymike.netlify.com/tags/</link>
+    <link>/tags/</link>
     <description>Recent content in Tags on Michael Khoo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; Michael Khoo 2017</copyright>
-    <lastBuildDate>Thu, 30 Nov 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 05 Jan 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://haymike.netlify.com/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Blockchain</title>
+      <link>/tags/blockchain/</link>
+      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/blockchain/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Crycompare</title>
+      <link>/tags/crycompare/</link>
+      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/crycompare/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cryptocurrency</title>
+      <link>/tags/cryptocurrency/</link>
+      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/cryptocurrency/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Formattable</title>
-      <link>https://haymike.netlify.com/tags/formattable/</link>
+      <link>/tags/formattable/</link>
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haymike.netlify.com/tags/formattable/</guid>
+      <guid>/tags/formattable/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Highcharter</title>
-      <link>https://haymike.netlify.com/tags/highcharter/</link>
-      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
+      <link>/tags/highcharter/</link>
+      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://haymike.netlify.com/tags/highcharter/</guid>
+      <guid>/tags/highcharter/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Kableextra</title>
-      <link>https://haymike.netlify.com/tags/kableextra/</link>
+      <link>/tags/kableextra/</link>
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haymike.netlify.com/tags/kableextra/</guid>
+      <guid>/tags/kableextra/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Nba</title>
-      <link>https://haymike.netlify.com/tags/nba/</link>
+      <link>/tags/nba/</link>
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haymike.netlify.com/tags/nba/</guid>
+      <guid>/tags/nba/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>/tags/python/</link>
+      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Pytrends</title>
+      <link>/tags/pytrends/</link>
+      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/pytrends/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R</title>
-      <link>https://haymike.netlify.com/tags/r/</link>
-      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
+      <link>/tags/r/</link>
+      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://haymike.netlify.com/tags/r/</guid>
+      <guid>/tags/r/</guid>
       <description></description>
     </item>
     

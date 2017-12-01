@@ -2,22 +2,40 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Michael Khoo</title>
-    <link>https://haymike.netlify.com/</link>
+    <link>/</link>
     <description>Recent content on Michael Khoo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; Michael Khoo 2017</copyright>
-    <lastBuildDate>Thu, 30 Nov 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 05 Jan 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://haymike.netlify.com/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Cyrptocurrency Prices and Google Trends Data</title>
+      <link>/post/cyrptocurrency-prices-and-google-trends-data/</link>
+      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/cyrptocurrency-prices-and-google-trends-data/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cyrptocurrency Prices and Google Trends Data</title>
+      <link>/posts/cyrptocurrency-prices-and-google-trends-data/</link>
+      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/cyrptocurrency-prices-and-google-trends-data/</guid>
+      <description>IntroductionBlockchain technology and cryptocurrencies have come front and center as the total market capitalization close in on $800 million at the start of 2018 growing over 4300% since 2017 with much of the growth happening in recent months. With all the recent news on the subject, I thought it might be interesting to try to quantify the buzz against the historical cryptocurrency data.</description>
+    </item>
+    
+    <item>
       <title>About Me</title>
-      <link>https://haymike.netlify.com/about/</link>
+      <link>/about/</link>
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haymike.netlify.com/about/</guid>
+      <guid>/about/</guid>
       <description>I graduated from the University of Virginia in 2014 with a degree in Economics. After school, I took a full-time position at the Federal Reserve Board as a financial systems analyst and have been there for about three and a half years. I currently reside in the DC metropolitan area.
 Skills:
  R SAS SQL Data Analysis  Have ideas? Feel free to get in touch!
@@ -26,10 +44,10 @@ Pickles Theme - Theme by mismith0227</description>
     
     <item>
       <title>NBA 2016-17 Backcourt Tandems - A Brief Look</title>
-      <link>https://haymike.netlify.com/posts/20171130-nba-backcourt/</link>
+      <link>/posts/20171130-nba-backcourt/</link>
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haymike.netlify.com/posts/20171130-nba-backcourt/</guid>
+      <guid>/posts/20171130-nba-backcourt/</guid>
       <description>IntroductionIn recent years the NBA has been shifting to favor guard-oriented play highlighted by dynamic pairs such as the Golden State Warriors’s Steph Curry and Klay Thompson and the Wizard’s John Wall and Bradley Beal just to name a few.</description>
     </item>
     

@@ -1,10 +1,10 @@
 theme = "hugo_theme_pickles"
-baseurl = "https://haymike.netlify.com/"
+baseurl = ""
 languageCode = "en-us"
 Title = "Michael Khoo"
 # Copyright notice. This is displayer in the footer.
 copyright = "&copy; Michael Khoo 2017"
-relativeurls = true
+relativeurls = false
 ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
 
 [params]
@@ -18,8 +18,9 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
   disqus = ""
   # Google Analytics API key.
   ga_api_key = "Your Google Analytics tracking id"
+  authorwebsite = "https://haymike.netlify.com"
   author = "Michael Khoo"
-  avatar = "images/avatar.jpg"
+  avatar = "https://haymike.netlify.com/images/avatar.jpg"
   contact = "mailto:mlk8qf@gmail.com"
   bio = "University of Virginia '14 graduate currently working as a financial systems analyst at the Federal Reserve Board based in Washington, DC."
   # Short subtitle/tagline. This is displayed in the header.

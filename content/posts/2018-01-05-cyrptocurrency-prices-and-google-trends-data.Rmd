@@ -1,0 +1,220 @@
+---
+title: Cyrptocurrency Prices and Google Trends Data
+author: ~
+date: '2018-01-07'
+slug: cyrptocurrency-prices-and-google-trends-data
+categories: []
+tags: [python, cryCompare, pytrends, Cryptocurrency, Blockchain, R, Highcharter]
+---
+
+##Introduction
+Blockchain technology and cryptocurrencies have come front and center as the market's total market capitalization closes in on  the $800 million mark, growing over 4300% since 2017 with much of the growth happening in recent months. With all the recent news on the subject, I thought it might be interesting to try to quantify the buzz against the cryptocurrency price data and how search interest may correlates with price swings. In this analysis, I performed the data retrieval in Python utilizing the Google Trend and CryptoCompare APIs then use R to visualize and post my analysis using the `blogdown` workflow.
+
+API sources:
+
+  - [Gautier Marti's Post Using CryptoCompare API](https://gmarti.gitlab.io/cryptocurrency/2017/08/25/download-cryptocoins-api-python.html)
+  - [pytrends](https://github.com/GeneralMills/pytrends)
+
+#Historical Cryptocurrency Data
+In this first chunk of code, I utilize the Python wrapper `cryCompare` to pull historical price data from CryptoCompare's API. In this analysis I wanted to look at the Coinbase cryptocurrencies(Bitcoin, Ethereum, and Litecoin) along with Ripple which as been growing in volume rapidly over the last few days. The data are pulled in day-by-day increments.
+
+```{python eval = FALSE}
+import pytrends
+import pandas as pd
+import cryCompare
+
+coins = sorted(list(['BTC', 'LTC', 'ETH', 'XRP']))
+
+h = History()
+
+df_dict = {}
+for coin in coins:
+    histo = h.histoDay(coin,'USD',allData=True)
+    if histo['Data']:
+        df_histo = pd.DataFrame(histo['Data'])
+        df_histo['date'] = pd.to_datetime(df_histo['time'],unit='s')
+        df_histo['coin'] = coin
+        
+        df_dict[coin] = df_histo
+
+df_fullPrices = pd.concat(df_dict.values(), ignore_index = True)
+df_fullPrices = pd.melt(df_fullPrices, id_vars=['coin', 'date'], value_vars=['close', 'high', 'low', 'open', 'volumefrom', 'volumeto'])
+```
+
+## Google Trends Data
+Similar keyword data are pulled using `pytrends` then formatted to be easily appended to the CyrptoCompare price dataset. I pull three months of data as indicated in the timeframe arguement defned in the build payload.
+
+```{python eval = FALSE}
+pytrend = TrendReq()
+
+kw_list=['bitcoin', 'ethereum', 'litecoin', 'ripple']
+
+pytrend.build_payload(kw_list, cat=0, timeframe='today 3-m', geo='', gprop='')
+
+interest_over_time_df = pytrend.interest_over_time()
+del interest_over_time_df['isPartial']
+
+interest_over_time_df = interest_over_time_df.rename(columns={'bitcoin': 'BTC', 'ethereum': 'ETH', 'litecoin': 'LTC', 'ripple': 'XRP'})
+
+interest_over_time_df = interest_over_time_df.reset_index()
+
+df_trends = pd.melt(interest_over_time_df, id_vars=['date'], value_vars=['BTC', 'ETH', 'LTC', 'XRP'])
+df_trends =df_trends.rename(columns={'variable': 'coin'})
+df_trends['variable'] = 'trend'
+```
+##Merging Datasets
+The data then are merged and filtered to where we have trend data. From here the data was exported out to and Excel document to be pulled in via R.
+
+```{python eval = FALSE}
+df_priceHistory = df_fullPrices.set_index(['coin','date'])
+df_trends = df_trends.set_index(['coin','date'])
+
+df_fullData = df_priceHistory.append(df_trends)
+
+df_fullData = df_fullData.groupby(['coin', 'date', 'variable'])['value'].sum().unstack('variable')
+df_filterData = df_fullData.query('trend >=  0')
+```
+
+```{r setup, include=FALSE}
+library(devtools)
+library(dplyr)
+library(highcharter)
+library(reshape2)
+library(knitr)
+library(kableExtra)
+library(formattable)
+library(ggplot2)
+library(lubridate)
+
+```
+
+##Importing Data Into R
+```{r import, include=FALSE}
+setwd("C:/Users/mlk8q/Documents/R/khoo-blog/")
+library(readxl)
+library(knitr)
+CryptoPricesData <- read_excel("data/CryptoPricesData.xlsx", 
+    col_types = c("text", "date", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric"))
+```
+
+```{r displayImport, eval=FALSE}
+library(readxl)
+CryptoPricesData <- read_excel("data/CryptoPricesData.xlsx", 
+    col_types = c("text", "date", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric"))
+```
+##Plotting and Exploring Data
+The following chart plots the keyword list's search interest indexed over a 3 month period along with the related historical price data using `highcharter` to vizualize the data. When looking at indexed data, any spike in value indidcates increased interest away from usual search volume on a topic.
+```{r interestSummary}
+library(dplyr)
+library(highcharter)
+library(lubridate)
+
+interestSummary <- CryptoPricesData %>% 
+  group_by(coin) %>% summarize(mean=mean(trend))
+
+interestSummary$mean <- round(interestSummary$mean, digit = 2)
+
+CryptoPricesData$date <- ymd(CryptoPricesData$date)
+
+interestPlot <- highchart() %>% 
+  hc_add_series(data = CryptoPricesData, hcaes(x = date, y = trend, group = coin),
+                type = "line") %>%
+  hc_xAxis(type = "datetime") %>%
+  hc_tooltip(shared = TRUE) %>%
+    # Axis
+    hc_yAxis(
+      title = list(text = "Search Interest")) %>% 
+    hc_xAxis(
+      title = list(text = "Date")) %>%
+    # Titles and credits
+    hc_title(
+      text = "Google Trends: Selected Cryptocurrency Search Interest") %>%
+      hc_subtitle(text = "10/7/2017 - 1/5/2018") %>%
+    hc_credits(
+      enabled = TRUE, text = "Source: Google Trends",
+      href = "https://trends.google.com/trends/explore?date=today%203-m&q=bitcoin,ethereum,litecoin,Ripple",
+      style = list(fontSize = "12px")
+    )
+
+interestSummary_chart <- highchart() %>% 
+  hc_add_series(data = interestSummary, hcaes(x = coin, y = mean, group = coin),
+                type = "column") %>%
+    # Axis
+    hc_yAxis(
+      title = list(text = "Search Interest")) %>% 
+    hc_xAxis(
+      title = list(text = "Coin")) %>%
+    # Titles and credits
+    hc_title(
+      text = "Google Trends: Average Selected Cryptocurrency Search Interest") %>%
+    hc_subtitle(text = "10/7/2017 - 1/5/2018") %>%
+    hc_credits(
+      enabled = TRUE, text = "Source: Google Trends",
+      href = "https://trends.google.com/trends/explore?date=today%203-m&q=bitcoin,ethereum,litecoin,Ripple",
+      style = list(fontSize = "12px")
+    )
+
+interestPlot
+interestSummary_chart
+
+```
+The first two plots look at Google Trends data highlight the focused interest on Bitcoin over the other three cyrptos. 
+
+```{r priceTrendPlot}
+BTC <- CryptoPricesData %>%
+  filter(coin == 'BTC')
+ETH <- CryptoPricesData %>%
+  filter(coin == 'ETH')
+LTC <- CryptoPricesData %>%
+  filter(coin == 'LTC')
+XRP <- CryptoPricesData %>%
+  filter(coin == 'XRP')
+
+coinPlot <- function(temp) {
+  highchart(type = "stock") %>% 
+  hc_title(text = paste0(temp[1,1], " Price and Google Trend")) %>% 
+  hc_subtitle(text = "3 Month High/Low Price") %>% 
+  hc_yAxis_multiples( create_yaxis(3, height = c(3, 1, 1), turnopposite = TRUE)) %>% 
+  hc_add_series(data = temp,name = "High Price", hcaes(x = date,  y = high, group = coin),
+                  type = "line", color = "red", yAxis = 0) %>%
+  hc_add_series(data = temp, name = "Low Price", hcaes(x = date,  y = low, group = coin),
+                type = "line", color = "blue", yAxis = 0) %>%
+  hc_add_series(data = temp, name = "Trend", hcaes(x = date, y = trend, group = coin),
+                  type = "column", color = "grey", yAxis = 1) %>%
+
+
+  hc_xAxis(type = "datetime") %>%
+  hc_tooltip(shared = TRUE)
+  
+}
+```
+Next, I plot the historical high and low prices along with the search interest data. The data are filtered by the coin, then passed through a function to create the charts. These charts are used as an exploratory tools to visualize trend spikes their subsequent prices.
+
+Here are some general observations:
+
+  - Initial spikes in interest are typically triggered by a large spike in price.
+  - After the initial spike, search interest stays elevated that could be caused through price volatility or interest through news cycles.
+  - Sharp decreases in prices can cause search interest to surge. In particular the only search interest value of 100 was when Bitcoin tumbled close to $10,000 from its peak of $20,000.
+
+```{r BTC}
+coinPlot(BTC)
+```
+
+```{r ETH}
+coinPlot(ETH)
+```
+
+```{r LTC}
+coinPlot(LTC)
+```
+
+```{r XRP}
+coinPlot(XRP)
+```
+
+##Closing Thoughts
+This analysis was my first major project using Python and the Anaconda workspace. I found working with the `pandas` library to be intiutive and easy to use when manipulating and transforming data and will continue learn Python in the future. This analysis offers a very rudimentary look at search trend data and its correlation to price data. 
