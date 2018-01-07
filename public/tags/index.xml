@@ -51,7 +51,11 @@
     <item>
       <title>Highcharter</title>
       <link>/tags/highcharter/</link>
+<<<<<<< HEAD
       <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
+=======
+      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
+>>>>>>> 7f39d64e0126cc81235ee61beb4289ebfcdc3d82
       
       <guid>/tags/highcharter/</guid>
       <description></description>
@@ -72,6 +76,7 @@
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
       <guid>/tags/nba/</guid>
+<<<<<<< HEAD
       <description></description>
     </item>
     
@@ -90,13 +95,19 @@
       <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/pytrends/</guid>
+=======
+>>>>>>> 7f39d64e0126cc81235ee61beb4289ebfcdc3d82
       <description></description>
     </item>
     
     <item>
       <title>R</title>
       <link>/tags/r/</link>
+<<<<<<< HEAD
       <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
+=======
+      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
+>>>>>>> 7f39d64e0126cc81235ee61beb4289ebfcdc3d82
       
       <guid>/tags/r/</guid>
       <description></description>
