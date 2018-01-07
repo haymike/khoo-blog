@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; Michael Khoo 2017</copyright>
-    <lastBuildDate>Fri, 05 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 07 Jan 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Blockchain</title>
       <link>/tags/blockchain/</link>
-      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/blockchain/</guid>
       <description></description>
@@ -24,7 +24,7 @@
     <item>
       <title>Crycompare</title>
       <link>/tags/crycompare/</link>
-      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/crycompare/</guid>
       <description></description>
@@ -33,7 +33,7 @@
     <item>
       <title>Cryptocurrency</title>
       <link>/tags/cryptocurrency/</link>
-      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/cryptocurrency/</guid>
       <description></description>
@@ -51,11 +51,7 @@
     <item>
       <title>Highcharter</title>
       <link>/tags/highcharter/</link>
-<<<<<<< HEAD
-      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
-=======
-      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
->>>>>>> 7f39d64e0126cc81235ee61beb4289ebfcdc3d82
+      <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/highcharter/</guid>
       <description></description>
@@ -76,14 +72,13 @@
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
       <guid>/tags/nba/</guid>
-<<<<<<< HEAD
       <description></description>
     </item>
     
     <item>
       <title>Python</title>
       <link>/tags/python/</link>
-      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/python/</guid>
       <description></description>
@@ -92,22 +87,16 @@
     <item>
       <title>Pytrends</title>
       <link>/tags/pytrends/</link>
-      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/pytrends/</guid>
-=======
->>>>>>> 7f39d64e0126cc81235ee61beb4289ebfcdc3d82
       <description></description>
     </item>
     
     <item>
       <title>R</title>
       <link>/tags/r/</link>
-<<<<<<< HEAD
-      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
-=======
-      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
->>>>>>> 7f39d64e0126cc81235ee61beb4289ebfcdc3d82
+      <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/r/</guid>
       <description></description>

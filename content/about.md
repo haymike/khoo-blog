@@ -10,6 +10,7 @@ Skills:
   - R
   - SAS
   - SQL
+  - Python
   - Data Analysis
 
 

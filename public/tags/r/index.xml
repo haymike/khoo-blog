@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; Michael Khoo 2017</copyright>
-    <lastBuildDate>Fri, 05 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 07 Jan 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,10 +15,10 @@
     <item>
       <title>Cyrptocurrency Prices and Google Trends Data</title>
       <link>/posts/cyrptocurrency-prices-and-google-trends-data/</link>
-      <pubDate>Fri, 05 Jan 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>/posts/cyrptocurrency-prices-and-google-trends-data/</guid>
-      <description>IntroductionBlockchain technology and cryptocurrencies have come front and center as the total market capitalization close in on $800 million at the start of 2018 growing over 4300% since 2017 with much of the growth happening in recent months. With all the recent news on the subject, I thought it might be interesting to try to quantify the buzz against the historical cryptocurrency data.</description>
+      <description>IntroductionBlockchain technology and cryptocurrencies have come front and center as the market’s total market capitalization closes in on the $800 million mark, growing over 4300% since 2017 with much of the growth happening in recent months. With all the recent news on the subject, I thought it might be interesting to try to quantify the buzz against the cryptocurrency price data and how search interest may correlates with price swings.</description>
     </item>
     
     <item>

@@ -3,19 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-<<<<<<< HEAD
+    <loc>/posts/cyrptocurrency-prices-and-google-trends-data/</loc>
+    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/cyrptocurrency-prices-and-google-trends-data/</loc>
     <lastmod>2018-01-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/posts/cyrptocurrency-prices-and-google-trends-data/</loc>
-    <lastmod>2018-01-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-=======
->>>>>>> 7f39d64e0126cc81235ee61beb4289ebfcdc3d82
     <loc>/about/</loc>
     <lastmod>2017-11-30T00:00:00+00:00</lastmod>
   </url>
@@ -26,96 +23,61 @@
   </url>
   
   <url>
-<<<<<<< HEAD
     <loc>/tags/blockchain/</loc>
-    <lastmod>2018-01-05T00:00:00+00:00</lastmod>
-=======
-    <loc>/categories/</loc>
->>>>>>> 7f39d64e0126cc81235ee61beb4289ebfcdc3d82
+    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-<<<<<<< HEAD
     <loc>/categories/</loc>
-=======
-    <loc>/tags/formattable/</loc>
-    <lastmod>2017-11-30T00:00:00+00:00</lastmod>
->>>>>>> 7f39d64e0126cc81235ee61beb4289ebfcdc3d82
     <priority>0</priority>
   </url>
   
   <url>
-<<<<<<< HEAD
     <loc>/tags/crycompare/</loc>
-    <lastmod>2018-01-05T00:00:00+00:00</lastmod>
-=======
-    <loc>/tags/highcharter/</loc>
-    <lastmod>2017-11-30T00:00:00+00:00</lastmod>
->>>>>>> 7f39d64e0126cc81235ee61beb4289ebfcdc3d82
+    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-<<<<<<< HEAD
     <loc>/tags/cryptocurrency/</loc>
-    <lastmod>2018-01-05T00:00:00+00:00</lastmod>
-=======
-    <loc>/tags/kableextra/</loc>
-    <lastmod>2017-11-30T00:00:00+00:00</lastmod>
->>>>>>> 7f39d64e0126cc81235ee61beb4289ebfcdc3d82
+    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-<<<<<<< HEAD
     <loc>/tags/formattable/</loc>
-=======
-    <loc>/</loc>
->>>>>>> 7f39d64e0126cc81235ee61beb4289ebfcdc3d82
     <lastmod>2017-11-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-<<<<<<< HEAD
     <loc>/tags/highcharter/</loc>
-    <lastmod>2018-01-05T00:00:00+00:00</lastmod>
-=======
-    <loc>/tags/nba/</loc>
-    <lastmod>2017-11-30T00:00:00+00:00</lastmod>
->>>>>>> 7f39d64e0126cc81235ee61beb4289ebfcdc3d82
+    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-<<<<<<< HEAD
     <loc>/tags/kableextra/</loc>
-=======
-    <loc>/posts/</loc>
->>>>>>> 7f39d64e0126cc81235ee61beb4289ebfcdc3d82
     <lastmod>2017-11-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-<<<<<<< HEAD
     <loc>/</loc>
-    <lastmod>2018-01-05T00:00:00+00:00</lastmod>
-=======
-    <loc>/tags/r/</loc>
-    <lastmod>2017-11-30T00:00:00+00:00</lastmod>
->>>>>>> 7f39d64e0126cc81235ee61beb4289ebfcdc3d82
+    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-<<<<<<< HEAD
     <loc>/tags/nba/</loc>
-=======
-    <loc>/tags/</loc>
->>>>>>> 7f39d64e0126cc81235ee61beb4289ebfcdc3d82
     <lastmod>2017-11-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/posts/</loc>
+    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -126,32 +88,26 @@
   </url>
   
   <url>
-    <loc>/posts/</loc>
-    <lastmod>2018-01-05T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/tags/python/</loc>
-    <lastmod>2018-01-05T00:00:00+00:00</lastmod>
+    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/pytrends/</loc>
-    <lastmod>2018-01-05T00:00:00+00:00</lastmod>
+    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2018-01-05T00:00:00+00:00</lastmod>
+    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2018-01-05T00:00:00+00:00</lastmod>
+    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
