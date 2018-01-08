@@ -17,7 +17,7 @@ ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
   # Disqus shortname
   disqus = ""
   # Google Analytics API key.
-  ga_api_key = "Your Google Analytics tracking id"
+  ga_api_key = "UA-112119261-1"
   authorwebsite = "https://haymike.netlify.com"
   author = "Michael Khoo"
   avatar = "https://haymike.netlify.com/images/avatar.jpg"
