@@ -194,12 +194,6 @@ coinPlot <- function(temp) {
 ```
 Next, I plot the historical high and low prices along with the search interest data. The data are filtered by the coin, then passed through a function to create the charts. These charts are used as an exploratory tools to visualize trend spikes their subsequent prices.
 
-Here are some general observations:
-
-  - Initial spikes in interest are typically triggered by a large spike in price.
-  - After the initial spike, search interest stays elevated that could be caused through price volatility or interest through news cycles.
-  - Sharp decreases in prices can cause search interest to surge. In particular the only search interest value of 100 was when Bitcoin tumbled close to $10,000 from its peak of $20,000.
-
 ```{r BTC}
 coinPlot(BTC)
 ```
@@ -216,5 +210,11 @@ coinPlot(LTC)
 coinPlot(XRP)
 ```
 
+Here are some general observations:
+
+  - Initial spikes in interest are typically triggered by a large spike in price.
+  - After the initial spike, search interest stays elevated that could be caused through price volatility or interest through news cycles.
+  - Sharp decreases in prices can cause search interest to surge. In particular the only search interest value of 100 was when Bitcoin tumbled close to $10,000 from its peak of $20,000.
+
 ##Closing Thoughts
-This analysis was my first major project using Python and the Anaconda workspace. I found working with the `pandas` library to be intiutive and easy to use when manipulating and transforming data and will continue learn Python in the future. This analysis offers a very rudimentary look at search trend data and its correlation to price data. 
+This analysis was my first major project using Python and the Anaconda workspace. I found working with the `pandas` library to be intiutive and easy to use for manipulating and transforming data. This analysis offers a very rudimentary look at search trend data and its correlation to price data that can be used as a starting point for further analysis. 
