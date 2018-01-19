@@ -45,7 +45,9 @@ plot <- timevis(Achilles, width = '100%', showZoom = FALSE, zoomFactor = 0.1, gr
 
 plot
 ```
-
+  
+    
+    
 
 **Recovery Thoughts and Tidbits:**
 
@@ -68,8 +70,6 @@ plot
 
 ##The Cost
 
-
-**Let's talk money:**
 I've compiled cost data from Kaiser Permanente and organized them into three major categories: surgery, physical therapy, and misc. The surgery includes the operation and anesthesia and misc includes any cost outside of what I paid to Kaiser such as my speedy knee scooter.  My costs do not include what I pay monthly for health insurance. Overall, I was pleased with my experience with Kaiser and thought what I paid was reasonable for my injury.
 
 ```{r costs, echo = FALSE}
