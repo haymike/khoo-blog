@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/posts/achilles-retrospective-costs-and-timeline/</loc>
+    <lastmod>2018-01-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/posts/cyrptocurrency-prices-and-google-trends-data/</loc>
     <lastmod>2018-01-07T00:00:00+00:00</lastmod>
   </url>
@@ -15,6 +20,12 @@
   <url>
     <loc>/posts/20171130-nba-backcourt/</loc>
     <lastmod>2017-11-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/achilles/</loc>
+    <lastmod>2018-01-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -47,6 +58,12 @@
   </url>
   
   <url>
+    <loc>/tags/health/</loc>
+    <lastmod>2018-01-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/highcharter/</loc>
     <lastmod>2018-01-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -60,7 +77,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
+    <lastmod>2018-01-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -72,7 +89,7 @@
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
+    <lastmod>2018-01-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -90,13 +107,19 @@
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
+    <lastmod>2018-01-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
+    <lastmod>2018-01-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/timevis/</loc>
+    <lastmod>2018-01-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

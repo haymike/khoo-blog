@@ -1,0 +1,90 @@
+---
+title: My Achilles Rupture Retrospective - Costs and Timeline
+author: ~
+date: '2018-01-18'
+slug: achilles-retrospective-costs-and-timeline
+categories: []
+tags: [R, Achilles, Health, timevis]
+---
+
+```{r import, include=FALSE}
+library(timevis)
+library(dplyr)
+library(kableExtra)
+library(highcharter)
+library(reshape2)
+library(knitr)
+library(tibble)
+library(formattable)
+library(ggplot2)
+library(highcharter)
+library(readxl)
+setwd("C:/Users/mlk8q/Documents/R/khoo-blog/")
+Achilles <- read_excel("data/Achilles.xlsx")
+costs <- read_excel("data/AchillesMedicalCosts.xlsx")
+as_tibble(costs)
+as_tibble(Achilles)
+```
+
+##Introduction
+Back in early April 2017, I completely ruptured my left achilles tendon playing ultimate frisbee. This was the first of many in my recreational sports career: my first major injury, my first surgery, and my first time in a cast, and my first time on crutches. I went down with a sudden sharp pain and knew instantly that it was bad. It was pretty surreal reaching down to grab your ankle and feeling nothing where your achilles should be. *Ouch*.
+
+A complete achilles rupture is pretty devastating in the realm of sports injuries with recovery times ranging from 6 months to a year. I immediately left the game and had a friend drive me to urgent care (Thanks Josh). Kobe on the other hand, got up and hobbled to the charity stripe to sink two free throws. In this analysis, I want to share an analysis of the cost and some of my thoughts through the recovery process.
+
+![](https://media.giphy.com/media/EA90NDRlZIUzm/giphy.gif)
+
+##Recovery Timeline and Milestones
+Shortly after my injury, I opted for a minmally invasive percutaneous surgery aiming to return to sports. Timing is key when operating on a ruptured achilles tendon as the longer you wait the further the tendon will retract upwards to your calf making it difficult to repair. Yummy. For extra fun, youtube some videos of achilles surgeries (*jk don't*).
+
+It took me give or take 8 months to be cleared for sports activity. In the latter half of my recovery period, I took a short trip to San Francisco and a longer trip with my best friends to Japan where I got a little lazy with physical therapy.
+
+**Timeline Plotted:**
+```{r timevis, echo = FALSE}
+plot <- timevis(Achilles, width = '100%', showZoom = FALSE, zoomFactor = 0.1, groups = data.frame(id = 1:3, content = c("G1", "G2", "G3"))) %>%
+  setGroups(data.frame(id = 1:3, content = c("On-going", "Medical", "Milestones")))
+
+plot
+```
+
+
+**Recovery Thoughts and Tidbits:**
+
+* These are not in any particular order.
+* I just moved into a new townhouse the month before. Crutches + stairs = :(.
+* I initially expected to be pretty depressed through the recovery period and at the beginning I was but I kept myself occupied playing video games and gardening (tomatoes and jalapenos galore). I attribute my good mood to support from my friends, especially from my girlfriend, Milana. Thanks!
+* I completely stopped watching/reading anything related to ultimate frisbee.
+* My parents still don't understand what my injury was and why I needed surgery.
+* I originally was planning to try out for Club ultimate for the 2017 season, but going forward I probably will only play ultimate at a recreational level.
+* Showering was a HUGE inconvenience with a cast. I had this sort of plastic cover that I had to slip over the cast when showering and getting out of the shower was awful.
+* My achilles hurt the most a day after surgery. It's this weird sharp and numb pulsating pain that hurts especially if you don't elevate your leg. I tried to keep off prescribed pain medicine as it made me really dizzy.
+* I wiggled my toes a lot while in the cast. #exercise
+* The atrophy in my left calf was actually really scary. When the cast came off, my left chalf was probably half the size of my other leg. I'm already a pretty skinny guy, but left leg had almost no definition. Going forward my left calf will always be a bit smaller than my right.
+* Washing my left leg after the cast came off was one of the most satisfying feelings. It's also crazy how much dead skin there was.
+* For a while I was super worried that my achilles was going to heal too long which is awful for strength in the long run.
+* I didn't do anything particularly "high tech" in physical therapy. I think the biggest benefit was that it kept me honest about a routine.
+* I had a lot of trouble with one of my scars being attached to my achilles and got multiple injections into the scar to try and help loosen it. It is still a bit stuck.
+* My injured achilles is still about double the size of my healthy one. It may get thinner in time.
+
+
+##The Cost
+
+
+**Let's talk money:**
+I've compiled cost data from Kaiser Permanente and organized them into three major categories: surgery, physical therapy, and misc. The surgery includes the operation and anesthesia and misc includes any cost outside of what I paid to Kaiser such as my speedy knee scooter.  My costs do not include what I pay monthly for health insurance. Overall, I was pleased with my experience with Kaiser and thought what I paid was reasonable for my injury.
+
+```{r costs, echo = FALSE}
+bar <- costs %>%
+  group_by(Type) %>%
+  summarize_all(sum) %>%
+  mutate_at(c("Total Claimed","Plan Covers" ,"My Costs"), funs(sprintf("$%.2f",.)))
+
+kable(bar, "html") %>%
+  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  row_spec(5, bold = T)
+```
+The U.S. Census Bureau reports that in 2015 the national family median income was $56,500 and $75,628 in Washington D.C. What medical providers request as claims isn't necessarily what would be charged to someone without health insurance, but if it were, it would be 17.9% and 13.4% of their income respectively. 
+
+##Back to Activity
+After being cleared for activity, I've started playing pick-up basketball again with noticeable effects. My ankle takes a lot of warming up and stretching before playing sports as it gets stiff if I haven't moved it in a while and I find myself hesitating to make aggressive moves that I would make normally prior to my injury. There is still a long way to go before I'm anywhere near to full strength but I'm just happy being active again.
+
+![](https://media.giphy.com/media/n7pauGsSQXeWk/giphy.gif)
