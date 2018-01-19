@@ -40,14 +40,14 @@ It took me give or take 8 months to be cleared for sports activity. In the latte
 
 **Timeline Plotted:**
 ```{r timevis, echo = FALSE}
-plot <- timevis(Achilles, width = '100%', showZoom = FALSE, zoomFactor = 0.1, groups = data.frame(id = 1:3, content = c("G1", "G2", "G3"))) %>%
+plot <- timevis(Achilles, width = '100%', zoomFactor = 0.1, groups = data.frame(id = 1:3, content = c("G1", "G2", "G3"))) %>%
   setGroups(data.frame(id = 1:3, content = c("On-going", "Medical", "Milestones")))
 
 plot
 ```
-  
-    
-    
+
+---  
+
 
 **Recovery Thoughts and Tidbits:**
 
