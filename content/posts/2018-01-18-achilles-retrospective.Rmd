@@ -27,7 +27,7 @@ as_tibble(Achilles)
 ```
 
 ##Introduction
-Back in early April 2017, I completely ruptured my left achilles tendon playing ultimate frisbee. This was the first of many in my recreational sports career: my first major injury, my first surgery, and my first time in a cast, and my first time on crutches. I went down with a sudden sharp pain and knew instantly that it was bad. It was pretty surreal reaching down to grab your ankle and feeling nothing where your achilles should be. *Ouch*.
+Back in early April 2017, I completely ruptured my left achilles tendon playing ultimate frisbee. This was the first of many in my recreational sports career: my first major injury, my first surgery, my first time in a cast, and my first time on crutches. I went down with a sudden sharp pain and knew instantly that it was bad. It was pretty surreal reaching down to grab your ankle and feeling nothing where your achilles should be. *Ouch*.
 
 A complete achilles rupture is pretty devastating in the realm of sports injuries with recovery times ranging from 6 months to a year. I immediately left the game and had a friend drive me to urgent care (Thanks Josh). Kobe on the other hand, got up and hobbled to the charity stripe to sink two free throws. In this analysis, I want to share an analysis of the cost and some of my thoughts through the recovery process.
 
